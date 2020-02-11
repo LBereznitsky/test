@@ -3,12 +3,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Selenium_Test_1
 {
     [TestClass]
-    public class UnitTest1
+    public class TestClass
     {
         [TestMethod]
         public void TestMethod1()
         {
-            var x = 1;
+            Browser browser = new Browser();
+           //TODO: not inmplemented
         }
     }
 }
