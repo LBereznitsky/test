@@ -1,13 +1,12 @@
-﻿using OpenQA.Selenium.Chrome;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Configuration;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support;
 
 namespace Selenium_Test_1
 {
     public class Browser
     {
-        public Browser()
+        public Browser Start()
         {
             var options = new ChromeOptions();
             options.AddUserProfilePreference("disable-popup-blocking", "true");
@@ -16,11 +15,19 @@ namespace Selenium_Test_1
             options.AddUserProfilePreference("safebrowsing.enabled", true);
             options.AddArgument("--disable-notifications");
 
-            ChromeDriver driver = new ChromeDriver(options);
 
             //MaximizeWindow();
-            driver.Manage().Window.Maximize();
+            //driver.Manage().Window.Maximize();
+
+            //return Browser(options);
         }
+
+        //public Browser()
+        //{
+        //    var driver = Initialize();
+        //    driver.Manage().Window.Maximize();
+        //}
+
     }
     
 }
