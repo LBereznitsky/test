@@ -6,28 +6,33 @@ namespace Selenium_Test_1
 {
     public class Browser
     {
-        public Browser Start()
+        protected string DefaultUrl { get; set; } = "https://reverent-aryabhata-11cf33.netlify.com/";
+
+        public ChromeDriver CurrentBrowser { get; set; }
+
+        protected ChromeDriver Initialize()
         {
-            var options = new ChromeOptions();
+            ChromeOptions options = new ChromeOptions();
             options.AddUserProfilePreference("disable-popup-blocking", "true");
             options.AddUserProfilePreference("download.prompt_for_download", false);
             options.AddUserProfilePreference("download.directory_upgrade", true);
             options.AddUserProfilePreference("safebrowsing.enabled", true);
             options.AddArgument("--disable-notifications");
-
-
-            //MaximizeWindow();
-            //driver.Manage().Window.Maximize();
-
-            //return Browser(options);
+            ChromeDriver browser = new ChromeDriver(options);
+            browser.Manage().Window.Maximize();
+            return browser;
         }
 
-        //public Browser()
-        //{
-        //    var driver = Initialize();
-        //    driver.Manage().Window.Maximize();
-        //}
+        public void GoToUrl(ChromeDriver browser, string url)
+        {
+            browser?.Navigate().GoToUrl(url);
+        }
 
+        public void Close(ChromeDriver browser)
+        {
+            browser?.Quit();
+            browser?.Dispose();            
+        }
+        
     }
-    
 }
