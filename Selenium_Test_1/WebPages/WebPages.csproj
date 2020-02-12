@@ -20,15 +20,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Selenium.Chrome.WebDriver" Version="79.0.0" />
-    <PackageReference Include="Selenium.Support" Version="3.141.0" />
-    <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
-    <PackageReference Include="Selenium.WebDriver.MicrosoftDriver" Version="17.17134.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Browser\Browser.csproj" />
-    <ProjectReference Include="..\WebPages\WebPages.csproj" />
   </ItemGroup>
 
 </Project>

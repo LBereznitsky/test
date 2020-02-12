@@ -1,6 +1,5 @@
-﻿using System.Configuration;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support;
+﻿using OpenQA.Selenium.Chrome;
+
 
 namespace Selenium_Test_1
 {

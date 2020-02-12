@@ -1,86 +1,58 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using OpenQA.Selenium;
-using System.Threading;
 using OpenQA.Selenium.Chrome;
 
 namespace SeleniumTests.SeleniumDriver.WebElements
 {
-    public partial class WebElement : ICloneable
+    public class WebElement : ICloneable
     {
-        private By _firstSelector;
-        private IList<IWebElement> _searchCache;
-        private int _timeoutInSeconds = 10;
-        private int _searchTries = 1;
-        private bool IsSatisfied { get; set; }
-        private int _index;
+        private string _xpath;
 
-        private readonly ChromeDriver _browser;
+        private readonly ChromeDriver _webElement;
 
-        public WebElement (ChromeDriver browser)
+        public WebElement(ChromeDriver element, string xpath)
         {
-            _browser = browser;           
+            _webElement = element;
+            _xpath = xpath;
         }
-
-        
         
         private IWebElement FindSingleIWebElement()
-        {
-            try
-            {      
-                IList<IWebElement> elements;     
-                
-                elements = FindIWebElements();
-
-                int elementsCount = elements.Count();                
-
-                var element = elements.Count() == 1
-                    ? elements.Single()
-                    : _index == -1
-                        ? elements.Last()
-                        : elements.ElementAt(_index);
-
-                return element;
-            }
-            catch (StaleElementReferenceException)
-            {
-                return FindSingleIWebElement();
-            }           
+        {   
+            var element = _webElement.FindElementByXPath(_xpath);
+            return element;
         }
 
-        private IList<IWebElement> FindIWebElements()
+        public void Click()
         {
-            try
-            {
-                var resultList = _browser.FindElements(_firstSelector).ToList(); 
-                return resultList;
-            }
-            catch (StaleElementReferenceException)
-            {
-                //Logs.Logger.Debug($"Handle StaleElementReferenceExeption in FindIWebElements() method: {_firstSelector}");
-                return FindIWebElements();
-            }
-            //catch (Exception e)
-            //{
-            //    //Logs.DefaultExceptionMSG = e.Message;
-            //    if (Logs.DefaultExceptionMSG.Contains("unknown error"))
-            //    {
-            //        //throw new Exception(Logs.DefaultExceptionMSG = "UNKNOWN ERROR" + e.Message);
-            //    }
-            //    else if (String.IsNullOrEmpty(Logs.DefaultExceptionMSG))
-            //    {
-            //        //throw new Exception(Logs.DefaultExceptionMSG = $"ERROR: FindIWebElements() FAILED");
-            //    }
-            //    else
-            //    {
-            //        //throw new Exception(Logs.DefaultExceptionMSG);
-            //    }
-            //}
+            var element = FindSingleIWebElement();
+            element.Click();
         }
 
+        public string Text
+        {
+            get
+            {
+                var element = FindSingleIWebElement();
+                return element.Text;                
+            }
+            set
+            {
+                var element = FindSingleIWebElement();
+                element.Click();
+                element.SendKeys(Keys.Control + "a");
+                element.SendKeys(Keys.Backspace);
+                element.SendKeys(value);
+            }
+        }        
+
+        public bool IsDisplayed()
+        {
+            var element = FindSingleIWebElement();
+            return element.Displayed;
+        }
 
         object ICloneable.Clone()
         {
@@ -91,5 +63,6 @@ namespace SeleniumTests.SeleniumDriver.WebElements
         {
             return (WebElement)MemberwiseClone();
         }
+
     }
 }
