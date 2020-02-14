@@ -3,31 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Selenium_Test_1", "Selenium_Test_1\Selenium_Test_1.csproj", "{FE1ABD8E-C027-4EDE-9A49-317BE36C1F44}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Browser", "Browser\Browser.csproj", "{F1FC3FE7-F2CE-4974-AE33-2FFE599B9924}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebPages", "WebPages\WebPages.csproj", "{22B52976-72B1-4C29-9199-EEF355D6F662}"
-EndProject
 Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FE1ABD8E-C027-4EDE-9A49-317BE36C1F44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FE1ABD8E-C027-4EDE-9A49-317BE36C1F44}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FE1ABD8E-C027-4EDE-9A49-317BE36C1F44}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FE1ABD8E-C027-4EDE-9A49-317BE36C1F44}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F1FC3FE7-F2CE-4974-AE33-2FFE599B9924}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F1FC3FE7-F2CE-4974-AE33-2FFE599B9924}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F1FC3FE7-F2CE-4974-AE33-2FFE599B9924}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F1FC3FE7-F2CE-4974-AE33-2FFE599B9924}.Release|Any CPU.Build.0 = Release|Any CPU
-		{22B52976-72B1-4C29-9199-EEF355D6F662}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{22B52976-72B1-4C29-9199-EEF355D6F662}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{22B52976-72B1-4C29-9199-EEF355D6F662}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{22B52976-72B1-4C29-9199-EEF355D6F662}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
