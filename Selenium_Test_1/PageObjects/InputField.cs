@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium.Chrome;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +11,19 @@ namespace PageObjects
     public class InputField
     {
         private readonly WebElement _inputField;
-        public InputField(ChromeDriver element, string xpath)
+
+        private readonly ILogger _logger;
+
+        public InputField(ILogger logger, ChromeDriver element, string xpath)
         {
-            _inputField = new WebElement(element, xpath);
+            _inputField = new WebElement(logger, element, xpath);
+            _logger = logger;
         }
 
         public void SetText(string text)
         {
             _inputField.Text = text;
+            _logger.Information($"SetText: '{text}'");
         }
 
         public string GetText()

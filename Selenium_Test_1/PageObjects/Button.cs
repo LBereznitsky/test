@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium.Chrome;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,15 +10,16 @@ namespace PageObjects
 {
     public class Button
     {
-        private readonly WebElement _button;
-        public Button(ChromeDriver element, string xpath)
+        private readonly WebElement _button;        
+
+        public Button(ILogger logger, ChromeDriver element, string xpath)
         {
-            _button = new WebElement(element, xpath);
+            _button = new WebElement(logger, element, xpath);           
         }
 
         public void ClickButton()
         {
-            _button.Click();
+            _button.Click();            
         }
     }
 }

@@ -1,29 +1,22 @@
 ﻿using Serilog;
-using Serilog.Core;
 using System;
+
 
 namespace TestsCommon
 {
-    public class Logs
-    {
-        public Logger InitializeLogs()
+    public class Logs 
+    {  
+        static public ILogger InitializeLogs()
         {
             string currentDate = String.Join("-", DateTime.Today.ToString("yyyy-MM-dd"));
+            string currentSeconds = String.Join("-", DateTime.Now.Millisecond.ToString());
 
-            return new LoggerConfiguration()
-                .MinimumLevel.Information()                
-                .WriteTo.File($@"C:\Logs\Info-{currentDate}.txt")
-                .CreateLogger();             
-        }
+            ILogger logger = new LoggerConfiguration()
+                .MinimumLevel.Information().WriteTo.Console()
+                .WriteTo.File($@"C:\Logs\Info-{currentDate}-{currentSeconds}.txt")
+                .CreateLogger();
 
-        public void Information(string information)
-        {
-            Log.Information(information); 
-        }
-
-        public void CloseAndFlush()
-        {
-            Log.CloseAndFlush();
+            return logger;
         }
     }
 }

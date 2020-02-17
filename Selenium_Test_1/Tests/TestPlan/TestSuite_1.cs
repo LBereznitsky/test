@@ -1,41 +1,24 @@
-﻿using System;
-using System.Threading;
+﻿using FluentAssertions;
+using FluentAssertions.Execution;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PageObjects;
-using Serilog;
 using TestsBrowser;
-
 
 namespace Tests
 {    
     [TestClass]
-    public class TestSuite_1 : Browser
-    {
-        
-
+    public class TestSuite_1 : TestsBase
+    { 
         [TestMethod]
         public void TestMethod1()
         {            
             CurrentBrowser = Initialize();
-
-            string currentDate = String.Join("-", DateTime.Today.ToString("yyyy-MM-dd"));
-
-            var logs = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .WriteTo.File($@"C:\Logs\Info-{currentDate}.txt")
-                .CreateLogger();
-
-
-
-            GoToUrl(CurrentBrowser, DefaultUrl);
-            logs.Information(nameof(GoToUrl));
-            logs.Information("Yeeeppp");
-            var mainPage = new MainPage(CurrentBrowser);
-            mainPage.fldRegisterName.SetText("Leonid krasava");
-            mainPage.btnSubmit.ClickButton();
-            //
-            //Thread.Sleep(30000);
-            logs.Dispose();
+            GoToUrl(CurrentBrowser, DefaultUrl); 
+            
+            var mainPage = new MainPage(Logger, CurrentBrowser);
+            mainPage.fldRegisterName.SetText("Hello Serilogs");
+            mainPage.btnSubmit.ClickButton();            
+            //Thread.Sleep(30000);            
             Close(CurrentBrowser); 
             
         }
@@ -43,13 +26,29 @@ namespace Tests
         [TestMethod]
         public void TestMethod2()
         {
-            CurrentBrowser = Initialize();
+            CurrentBrowser = Initialize();            
             GoToUrl(CurrentBrowser, DefaultUrl);
-            var mainPage = new MainPage(CurrentBrowser);
-            mainPage.fldRegisterName.SetText("1125544");
-            mainPage.btnSubmit.ClickButton();
-            //
-            Thread.Sleep(30000);
+            
+            var mainPage = new MainPage(Logger, CurrentBrowser);
+            
+            AssertMultiple(
+            () =>
+            {
+                mainPage.IsDisplayed().Should().BeTrue();
+                Logger.Information($" >>>PASSED: 'mainPage.IsDisplayed().Should().BeTrue()'");
+            },
+            () =>
+            {
+                mainPage.fldRegisterName.SetText("Some string");
+                mainPage.btnSubmit.ClickButton();
+                mainPage.IsDisplayed().Should().BeFalse();
+                Logger.Information($" >>>PASSED: 'mainPage.IsDisplayed().Should().BeTrue()'");
+            });
+            mainPage.fldRegisterName.SetText("Some string");
+            mainPage.btnSubmit.ClickButton(); 
+            //Thread.Sleep(30000);  
+            
+
             Close(CurrentBrowser);
         }
     }

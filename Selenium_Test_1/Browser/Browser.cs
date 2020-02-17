@@ -1,9 +1,6 @@
 ﻿using OpenQA.Selenium.Chrome;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Serilog;
+using TestsCommon;
 
 namespace TestsBrowser
 {
@@ -12,29 +9,37 @@ namespace TestsBrowser
         protected string DefaultUrl { get; set; } = "https://reverent-aryabhata-11cf33.netlify.com/";
 
         public ChromeDriver CurrentBrowser { get; set; }
+        public ILogger Logger { get; set; }        
 
         protected ChromeDriver Initialize()
         {
+            Logger = Logs.InitializeLogs();
             ChromeOptions options = new ChromeOptions();
             options.AddUserProfilePreference("disable-popup-blocking", "true");
             options.AddUserProfilePreference("download.prompt_for_download", false);
             options.AddUserProfilePreference("download.directory_upgrade", true);
             options.AddUserProfilePreference("safebrowsing.enabled", true);
             options.AddArgument("--disable-notifications");
-            ChromeDriver browser = new ChromeDriver(options);
+            ChromeDriver browser = new ChromeDriver(options);            
             browser.Manage().Window.Maximize();
+            Logger.Information("Browser Initialize");
             return browser;
         }
 
-        public void GoToUrl(ChromeDriver browser, string url)
-        {
-            browser?.Navigate().GoToUrl(url);
+            public void GoToUrl(ChromeDriver browser, string url)
+            {
+                browser?.Navigate().GoToUrl(url);
+                Logger.Information($"Naviagate to URL: {url}");
+
+            }
+
+            public void Close(ChromeDriver browser)
+            {                
+                browser?.Quit();
+                browser?.Dispose();
+                Logger.Information("Browser Quit");
+            }       
         }
 
-        public void Close(ChromeDriver browser)
-        {
-            browser?.Quit();
-            browser?.Dispose();
-        }
-    }
+
 }
