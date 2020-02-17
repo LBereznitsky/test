@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace PageObjects
 {
-    public class InputField
+    public class InputField : WebElement
     {
         private readonly WebElement _inputField;
 
         private readonly ILogger _logger;
 
-        public InputField(ILogger logger, ChromeDriver element, string xpath)
+        public InputField(ILogger logger, ChromeDriver element, string xpath) : base(logger, element, xpath)
         {
             _inputField = new WebElement(logger, element, xpath);
             _logger = logger;

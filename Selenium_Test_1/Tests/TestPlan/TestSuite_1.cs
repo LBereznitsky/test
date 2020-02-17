@@ -16,39 +16,67 @@ namespace Tests
             GoToUrl(CurrentBrowser, DefaultUrl); 
             
             var mainPage = new MainPage(Logger, CurrentBrowser);
-            mainPage.fldRegisterName.SetText("Hello Serilogs");
-            mainPage.btnSubmit.ClickButton();            
+            mainPage.fieldEmailAddress.SetText("Hello Serilogs");
+            mainPage.btnSubmit.Click();            
             //Thread.Sleep(30000);            
             Close(CurrentBrowser); 
             
         }
 
         [TestMethod]
-        public void TestMethod2()
+        public void MainPage_AllFields_Validation()
         {
+            string expectedErrorMessage = "Field cannot be empty";
             CurrentBrowser = Initialize();            
-            GoToUrl(CurrentBrowser, DefaultUrl);
-            
+            GoToUrl(CurrentBrowser, DefaultUrl);            
             var mainPage = new MainPage(Logger, CurrentBrowser);
-            
+            mainPage.IsDisplayed().Should().BeTrue();
+            mainPage.btnSubmit.Click();
+
             AssertMultiple(
             () =>
             {
-                mainPage.IsDisplayed().Should().BeTrue();
-                Logger.Information($" >>>PASSED: 'mainPage.IsDisplayed().Should().BeTrue()'");
+                (mainPage.errorFieldEmailAddress.IsDisplayed() && expectedErrorMessage ==
+                 mainPage.errorFieldEmailAddress.GetText()).Should().BeTrue();
+                Logger.Information($" >>>PASSED: 'errorFieldEmailAddress is displayed with correct text'");
             },
             () =>
             {
-                mainPage.fldRegisterName.SetText("Some string");
-                mainPage.btnSubmit.ClickButton();
-                mainPage.IsDisplayed().Should().BeFalse();
-                Logger.Information($" >>>PASSED: 'mainPage.IsDisplayed().Should().BeTrue()'");
-            });
-            mainPage.fldRegisterName.SetText("Some string");
-            mainPage.btnSubmit.ClickButton(); 
-            //Thread.Sleep(30000);  
+                (mainPage.errorFieldFirstName.IsDisplayed() && expectedErrorMessage ==
+                  mainPage.errorFieldFirstName.GetText()).Should().BeTrue();
+                Logger.Information($" >>>PASSED: 'errorFieldFirstName is displayed with correct text'");
+            },
+            () =>
+            {
+                (mainPage.errorFieldLastName.IsDisplayed() && expectedErrorMessage ==
+                  mainPage.errorFieldLastName.GetText()).Should().BeTrue();
+                Logger.Information($" >>>PASSED: 'errorFieldLastName is displayed with correct text'");
+            },
+            () =>
+            {
+                (mainPage.errorFieldPassword.IsDisplayed() && expectedErrorMessage ==
+                  mainPage.errorFieldPassword.GetText()).Should().BeTrue();
+                Logger.Information($" >>>PASSED: 'errorFieldPassword is displayed with correct text'");
+            },
+            () =>
+            {
+                (mainPage.errorFieldConfirmPassword.IsDisplayed() && expectedErrorMessage ==
+                  mainPage.errorFieldConfirmPassword.GetText()).Should().BeTrue();
+                Logger.Information($" >>>PASSED: 'errorFieldConfirmPassword is displayed with correct text'");
+            },
+            () =>
+            {
+                (mainPage.errorFieldPhone.IsDisplayed() && expectedErrorMessage ==
+                  mainPage.errorFieldPhone.GetText()).Should().BeTrue();
+                Logger.Information($" >>>PASSED: 'errorFieldPhone is displayed with correct text'");
+            },           
+            () =>
+            {
+                (mainPage.errorFieldOrganizationName.IsDisplayed() && expectedErrorMessage ==
+                  mainPage.errorFieldFirstName.GetText()).Should().BeTrue();
+                Logger.Information($" >>>PASSED: 'errorFieldFirstName is displayed with correct text'");
+            });   
             
-
             Close(CurrentBrowser);
         }
     }

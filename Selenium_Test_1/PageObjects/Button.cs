@@ -8,18 +8,13 @@ using System.Threading.Tasks;
 
 namespace PageObjects
 {
-    public class Button
+    public class Button : WebElement
     {
         private readonly WebElement _button;        
 
-        public Button(ILogger logger, ChromeDriver element, string xpath)
+        public Button(ILogger logger, ChromeDriver element, string xpath) : base(logger, element, xpath)
         {
             _button = new WebElement(logger, element, xpath);           
-        }
-
-        public void ClickButton()
-        {
-            _button.Click();            
-        }
+        }       
     }
 }

@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Button.cs" />
+    <Compile Include="AlertLabel.cs" />
     <Compile Include="MainPage.cs" />
     <Compile Include="InputField.cs" />
     <Compile Include="WebElement.cs" />

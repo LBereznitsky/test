@@ -39,6 +39,7 @@ namespace Tests
 
             if (errorMSGs.Count > 0)
             {
+                Close(CurrentBrowser);
                 var separator = string.Format("{0}{0}", string.Empty);
                 DefaultExceptionMSG = string.Join(separator, errorMSGs);
                 Assert.Fail(string.Format($"The following conditions failed:{Environment.NewLine}{DefaultExceptionMSG}"));

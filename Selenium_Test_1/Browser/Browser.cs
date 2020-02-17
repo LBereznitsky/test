@@ -1,5 +1,7 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using Serilog;
+using System.Diagnostics.Contracts;
 using TestsCommon;
 
 namespace TestsBrowser
@@ -26,20 +28,20 @@ namespace TestsBrowser
             return browser;
         }
 
-            public void GoToUrl(ChromeDriver browser, string url)
-            {
-                browser?.Navigate().GoToUrl(url);
-                Logger.Information($"Naviagate to URL: {url}");
+        public void GoToUrl(ChromeDriver browser, string url)
+        {
+            browser?.Navigate().GoToUrl(url);
+            Logger.Information($"Naviagate to URL: {url}");
 
-            }
-
-            public void Close(ChromeDriver browser)
-            {                
-                browser?.Quit();
-                browser?.Dispose();
-                Logger.Information("Browser Quit");
-            }       
         }
+
+        public void Close(ChromeDriver browser)
+        {                
+            browser?.Quit();
+            browser?.Dispose();
+            Logger.Information("Browser Quit");
+        }        
+    }
 
 
 }

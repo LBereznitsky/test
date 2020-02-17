@@ -25,8 +25,8 @@ namespace PageObjects
         {
             try
             {
-                var element = _webElement.FindElementByXPath(_xpath);
-                _logger.Information($"CLICK AT  WEBELEMENT - {_xpath}");
+                var element = _webElement.FindElementByXPath(_xpath);                
+                _logger.Information($"TryFindSingleIWebElement - {_xpath}");
                 return element;
             }
             catch (StaleElementReferenceException)
@@ -57,7 +57,7 @@ namespace PageObjects
             element.Click();
         }
 
-        public string Text
+        protected internal string Text
         {
             get
             {
