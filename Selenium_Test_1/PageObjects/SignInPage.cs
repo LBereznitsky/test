@@ -3,13 +3,13 @@ using Serilog;
 
 namespace PageObjects
 {
-    public class MainPage : WebElement
+    public class SignInPage : WebElement
     {
         private readonly ChromeDriver _webElement;
 
         private readonly ILogger _logger;
 
-        public MainPage(ILogger logger, ChromeDriver element) : base(logger, element, "//*[@class='metro login-fon register-metro']")
+        public SignInPage(ILogger logger, ChromeDriver element) : base(logger, element, "//*[@class='metro login-fon register-metro']")
         {
             _webElement = element;
             _logger = logger;
@@ -27,7 +27,7 @@ namespace PageObjects
 
         public InputField fieldLastName => new InputField(_logger, _webElement, "//*[@id='LastName']");
 
-        public InputField fieldUserPassword => new InputField(_logger, _webElement, "//*[text()='Password']//following::input[@id='UserPassword'][1]");
+        public InputField fieldPassword => new InputField(_logger, _webElement, "//*[text()='Password']//following::input[@id='UserPassword'][1]");
 
         public InputField fieldConfirmPassword => new InputField(_logger, _webElement, "//*[text()='Confirm password']//following::input[@id='UserPassword'][1]");
 

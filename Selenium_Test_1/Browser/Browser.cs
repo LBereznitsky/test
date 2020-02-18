@@ -6,7 +6,7 @@ using TestsCommon;
 
 namespace TestsBrowser
 {
-    public class Browser
+    public class Browser 
     {
         protected string DefaultUrl { get; set; } = "https://reverent-aryabhata-11cf33.netlify.com/";
 

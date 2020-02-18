@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Drawing;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -6,7 +9,7 @@ using Serilog;
 
 namespace PageObjects
 {
-    public class WebElement : ICloneable
+    public class WebElement : IWebElement
     {
         private readonly string _xpath;
 
@@ -25,7 +28,7 @@ namespace PageObjects
         {
             try
             {
-                var element = _webElement.FindElementByXPath(_xpath);                
+                var element = _webElement.FindElementByXPath(_xpath);
                 _logger.Information($"TryFindSingleIWebElement - {_xpath}");
                 return element;
             }
@@ -37,19 +40,18 @@ namespace PageObjects
             catch (ElementNotVisibleException)
             {
                 throw;
-            }           
+            }
             catch (InvalidSelectorException e)
             {
-                _logger.Error(e.ToString());                
+                _logger.Error(e.ToString());
                 throw;
             }
             catch (WebDriverException e)
             {
-                _logger.Error(e.ToString());                
-                throw;
-            }           
+                _logger.Error(e.ToString());
+                throw;                
+            }
         }
-        
 
         public void Click()
         {
@@ -71,24 +73,69 @@ namespace PageObjects
                 element.SendKeys(Keys.Control + "a");
                 element.SendKeys(Keys.Backspace);
                 element.SendKeys(value);
+                element.SendKeys(Keys.Enter);
+                Thread.Sleep(500);
             }
         }
 
-        public bool IsDisplayed()
+        public string TagName => throw new NotImplementedException();
+
+        string IWebElement.Text => throw new NotImplementedException();    
+
+        public bool Enabled => throw new NotImplementedException();
+
+        public bool Selected => throw new NotImplementedException();
+
+        public Point Location => throw new NotImplementedException();
+
+        public Size Size => throw new NotImplementedException();
+
+        public bool Displayed => TryFindSingleIWebElement().Displayed; 
+
+        public void Clear()
         {
             var element = TryFindSingleIWebElement();
-            return element.Displayed;
+            element.Clear();
         }
 
-        object ICloneable.Clone()
+        public void SendKeys(string text)
         {
-            return Clone();
+            var element = TryFindSingleIWebElement();
+            element.SendKeys(text);
         }
 
-        public WebElement Clone()
+        public void Submit()
         {
-            return (WebElement)MemberwiseClone();
+            var element = TryFindSingleIWebElement();
+            element.Submit();
         }
 
+        public string GetAttribute(string attributeName)
+        {
+            var element = TryFindSingleIWebElement();
+            return element.GetAttribute(attributeName);
+        }
+
+        public string GetProperty(string propertyName)
+        {
+            var element = TryFindSingleIWebElement();
+            return element.GetProperty(propertyName);
+        }
+
+        public string GetCssValue(string propertyName)
+        {
+            var element = TryFindSingleIWebElement();
+            return element.GetCssValue(propertyName);
+        }
+
+        public IWebElement FindElement(By by)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ReadOnlyCollection<IWebElement> FindElements(By by)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

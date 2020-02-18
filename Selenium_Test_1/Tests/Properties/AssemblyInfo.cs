@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
-[assembly: Parallelize(Workers = 4, Scope = Microsoft.VisualStudio.TestTools.UnitTesting.ExecutionScope.MethodLevel)]
+[assembly: Parallelize(Workers = 8, Scope = Microsoft.VisualStudio.TestTools.UnitTesting.ExecutionScope.MethodLevel)]
 [assembly: Guid("e1203aff-666b-48e9-9e83-c3c1f51075da")]
 
 // [assembly: AssemblyVersion("1.0.*")]
