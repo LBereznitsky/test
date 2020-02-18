@@ -51,5 +51,6 @@ namespace PageObjects
 
         public AlertLabel errorFieldOrganizationName => new AlertLabel(_logger, _webElement, "//*[@id='OrgDisplayName']//following::span[@for='ConfirmUserPassword']");
 
+        public AlertLabel fieldPasswordStrenght => new AlertLabel(_logger, _webElement, "//*[text()='Password']//following::span[@data-bind='visible: showPasswordWeaknessError']");
     }
 }

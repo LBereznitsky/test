@@ -1,11 +1,10 @@
-﻿using System;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using Serilog;
+using System;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using Serilog;
 
 namespace PageObjects
 {
@@ -26,6 +25,7 @@ namespace PageObjects
 
         private IWebElement TryFindSingleIWebElement()
         {
+
             try
             {
                 var element = _webElement.FindElementByXPath(_xpath);
@@ -49,8 +49,9 @@ namespace PageObjects
             catch (WebDriverException e)
             {
                 _logger.Error(e.ToString());
-                throw;                
+                return null;
             }
+
         }
 
         public void Click()
@@ -80,7 +81,7 @@ namespace PageObjects
 
         public string TagName => throw new NotImplementedException();
 
-        string IWebElement.Text => throw new NotImplementedException();    
+        string IWebElement.Text => throw new NotImplementedException();
 
         public bool Enabled => throw new NotImplementedException();
 
@@ -90,7 +91,25 @@ namespace PageObjects
 
         public Size Size => throw new NotImplementedException();
 
-        public bool Displayed => TryFindSingleIWebElement().Displayed; 
+        public bool Displayed
+        {
+            get
+            {
+                var element = TryFindSingleIWebElement(); 
+                
+                if (element != null)
+                {
+                    _logger.Debug($"Element is displayed - {_xpath}");
+                    return element.Displayed;
+                }
+                else
+                {                    
+                    _logger.Error($"Element is NOT displayed - {_xpath}");
+                    return false;
+                }
+            }
+        }
+
 
         public void Clear()
         {
