@@ -74,7 +74,7 @@ namespace PageObjects
                 element.SendKeys(Keys.Control + "a");
                 element.SendKeys(Keys.Backspace);
                 element.SendKeys(value);
-                element.SendKeys(Keys.Enter);
+                //element.SendKeys(Keys.Enter);
                 Thread.Sleep(500);
             }
         }

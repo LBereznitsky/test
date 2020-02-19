@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
 using PageObjects;
 
 namespace Tests
@@ -78,42 +79,49 @@ namespace Tests
             () =>
             {
                 signInPage.fieldEmailAddress.SetText("123@gmail.com");
+                signInPage.fieldPassword.SendKeys(Keys.Enter);
                 signInPage.errorFieldEmailAddress.Displayed.Should().BeFalse();
                 Logger.Information($" >>>PASSED: 'errorFieldEmailAddress is NOT displayed'");
             },
             () =>
             {
                 signInPage.fieldFirstName.SetText("John");
+                signInPage.fieldPassword.SendKeys(Keys.Enter);
                 signInPage.errorFieldFirstName.Displayed.Should().BeFalse();
                 Logger.Information($" >>>PASSED: 'errorFieldFirstName is NOT displayed'");
             },
             () =>
             {
                 signInPage.fieldLastName.SetText("Daemon");
+                signInPage.fieldPassword.SendKeys(Keys.Enter);
                 signInPage.errorFieldLastName.Displayed.Should().BeFalse();
                 Logger.Information($" >>>PASSED: 'errorFieldLastName is NOT displayed'");
             },
             () =>
             {
                 signInPage.fieldPassword.SetText("P@ssw0rd_20");
+                signInPage.fieldPassword.SendKeys(Keys.Enter);
                 signInPage.errorFieldPassword.Displayed.Should().BeFalse();
                 Logger.Information($" >>>PASSED: 'errorFieldPassword is NOT displayed'");
             },
             () =>
             {
                 signInPage.fieldConfirmPassword.SetText("P@ssw0rd_20");
+                signInPage.fieldPassword.SendKeys(Keys.Enter);
                 signInPage.errorFieldConfirmPassword.Displayed.Should().BeFalse();
                 Logger.Information($" >>>PASSED: 'errorFieldConfirmPassword is NOT displayed'");
             },
             () =>
             {
                 signInPage.fieldPhone.SetText("+380991704044");
+                signInPage.fieldPassword.SendKeys(Keys.Enter);
                 signInPage.errorFieldPhone.Displayed.Should().BeFalse();
                 Logger.Information($" >>>PASSED: 'errorFieldLastName is NOT displayed'");
             },
             () =>
             {
                 signInPage.fieldOrganizationName.SetText("Developex");
+                signInPage.fieldPassword.SendKeys(Keys.Enter);
                 signInPage.errorFieldOrganizationName.Displayed.Should().BeFalse();
                 Logger.Information($" >>>PASSED: 'errorFieldLastName is NOT displayed'");
             });
@@ -171,7 +179,7 @@ namespace Tests
             () => // step 5 
             {
                 expectedErrorMessage = "Password strength: weak";
-                signInPage.fieldPassword.SetText("12345");
+                signInPage.fieldPassword.SetText("12345");                
                 (signInPage.fieldPasswordStrenght.Displayed && expectedErrorMessage ==
                  signInPage.fieldPasswordStrenght.GetText()).Should().BeTrue();
                 Logger.Information($" >>>PASSED: 'fieldPasswordStrenght is displayed with correct text': step 5");
@@ -205,9 +213,8 @@ namespace Tests
         }
 
         [TestMethod]
-        public void TC10104_SignInPage_PhoneField_Check()
-        {
-            string expectedErrorMessage = "The password and confirmation password do not match";
+        public void TC10104_SignInPage_PhoneField_Check_InccorrectFormat()
+        {            
             CurrentBrowser = Initialize();
             GoToUrl(CurrentBrowser, DefaultUrl);
             var signInPage = new SignInPage(Logger, CurrentBrowser);
@@ -218,16 +225,110 @@ namespace Tests
             signInPage.fieldLastName.SetText("Daemon");
             signInPage.fieldPassword.SetText("P@ssw0rd_20");
             signInPage.fieldConfirmPassword.SetText("P@ssw0rd_20");
+            // incorrect phone format
             signInPage.fieldPhone.SetText("38(099)1704044");
             signInPage.fieldOrganizationName.SetText("Developex");
 
             signInPage.btnSubmit.Click();
             var welcomePage = new WelcomePage(Logger, CurrentBrowser);
-            welcomePage.Displayed.Should().BeFalse();
+
+            //Assertion
+            AssertMultiple(
+            () => 
+            {
+                welcomePage.Displayed.Should().BeFalse();
+                Logger.Information($" >>>PASSED: 'Welcome page is NOT displayed");
+            });
+            
             Close(CurrentBrowser);
         }
-        
+
+
+        [TestMethod]
+        public void TC10105_SignInPage_FirstName_LastName_Check_CaseInsensitive()
+        {
+            
+            CurrentBrowser = Initialize();
+            GoToUrl(CurrentBrowser, DefaultUrl);
+            var signInPage = new SignInPage(Logger, CurrentBrowser);
+            signInPage.Displayed.Should().BeTrue();
+
+            signInPage.fieldEmailAddress.SetText("123@gmail.com");
+            // upper case
+            signInPage.fieldFirstName.SetText("John");
+            signInPage.fieldLastName.SetText("Daemon");
+            signInPage.fieldPassword.SetText("P@ssw0rd_20");
+            signInPage.fieldConfirmPassword.SetText("P@ssw0rd_20");            
+            signInPage.fieldPhone.SetText("+380991704044");
+            signInPage.fieldOrganizationName.SetText("Developex");
+            signInPage.btnSubmit.Click();
+            var welcomePage = new WelcomePage(Logger, CurrentBrowser);
+
+            //Assertion
+            welcomePage.Displayed.Should().BeTrue();
+            Logger.Information($" >>>PASSED: 'Welcome page is displayed");
+
+            welcomePage.signUp.Click();
+            signInPage.fieldEmailAddress.SetText("123@gmail.com");
+            // lowercase
+            signInPage.fieldFirstName.SetText("john");
+            signInPage.fieldLastName.SetText("daemon");
+            signInPage.fieldPassword.SetText("P@ssw0rd_20");
+            signInPage.fieldConfirmPassword.SetText("P@ssw0rd_20");
+            signInPage.fieldPhone.SetText("+380991704044");
+            signInPage.fieldOrganizationName.SetText("Developex");
+            signInPage.btnSubmit.Click();  
+            
+            //Assertion
+            welcomePage.Displayed.Should().BeTrue();
+            Logger.Information($" >>>PASSED: 'Welcome page is displayed");
+
+            Close(CurrentBrowser);
+        }
+
+        [TestMethod]
+        public void TC10106_SignInPage_OrganizationName_Check_CaseInsensitive()
+        {
+
+            CurrentBrowser = Initialize();
+            GoToUrl(CurrentBrowser, DefaultUrl);
+            var signInPage = new SignInPage(Logger, CurrentBrowser);
+            signInPage.Displayed.Should().BeTrue();
+
+            signInPage.fieldEmailAddress.SetText("123@gmail.com");            
+            signInPage.fieldFirstName.SetText("John");
+            signInPage.fieldLastName.SetText("Daemon");
+            signInPage.fieldPassword.SetText("P@ssw0rd_20");
+            signInPage.fieldConfirmPassword.SetText("P@ssw0rd_20");
+            signInPage.fieldPhone.SetText("+380991704044");
+            // upper case
+            signInPage.fieldOrganizationName.SetText("Developex");
+            signInPage.btnSubmit.Click();
+            var welcomePage = new WelcomePage(Logger, CurrentBrowser);
+
+            //Assertion
+            welcomePage.Displayed.Should().BeTrue();
+            Logger.Information($" >>>PASSED: 'Welcome page is displayed");
+
+            welcomePage.signUp.Click();
+            signInPage.fieldEmailAddress.SetText("123@gmail.com");           
+            signInPage.fieldFirstName.SetText("John");
+            signInPage.fieldLastName.SetText("Daemon");
+            signInPage.fieldPassword.SetText("P@ssw0rd_20");
+            signInPage.fieldConfirmPassword.SetText("P@ssw0rd_20");
+            signInPage.fieldPhone.SetText("+380991704044");
+            // lowercase
+            signInPage.fieldOrganizationName.SetText("developex");
+            signInPage.btnSubmit.Click();
+
+            //Assertion
+            welcomePage.Displayed.Should().BeTrue();
+            Logger.Information($" >>>PASSED: 'Welcome page is displayed");
+
+            Close(CurrentBrowser);
+        }
     }
+
 }
 
 

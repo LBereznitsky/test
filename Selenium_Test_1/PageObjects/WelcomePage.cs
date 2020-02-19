@@ -13,6 +13,8 @@ namespace PageObjects
         {
             _webElement = element;
             _logger = logger;
-        }       
+        }
+
+        public Button signUp => new Button(_logger, _webElement, "//*[text()='Sign up' and not (@id='getStartedBtn')]");
     }
 }
