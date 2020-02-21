@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using Serilog;
 using System.Diagnostics.Contracts;
@@ -11,11 +12,13 @@ namespace TestsBrowser
         protected string DefaultUrl { get; set; } = "https://reverent-aryabhata-11cf33.netlify.com/";
 
         public ChromeDriver CurrentBrowser { get; set; }
-        public ILogger Logger { get; set; }        
+        public ILogger Logger { get; set; }
 
-        protected ChromeDriver Initialize()
+        public TestContext TestContext { get; set; }
+
+        public ChromeDriver Initialize()
         {
-            Logger = Logs.InitializeLogs();
+            Logger = Logs.InitializeLogs(TestContext);
             ChromeOptions options = new ChromeOptions();
             options.AddUserProfilePreference("disable-popup-blocking", "true");
             options.AddUserProfilePreference("download.prompt_for_download", false);
