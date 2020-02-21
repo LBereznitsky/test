@@ -1,8 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using Serilog;
-using System.Diagnostics.Contracts;
 using TestsCommon;
 
 namespace TestsBrowser
